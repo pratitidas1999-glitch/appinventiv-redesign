@@ -571,9 +571,10 @@
 @media (max-width: 760px) {
   .hero__deck {
     display: block; order: 2; /* sit below the hero copy + CTAs */
-    /* respect the page's side gutter (matches the CTAs above) instead of
-       bleeding full-width; neighbours clip at this padded edge, not the screen */
-    width: 100%;
+    /* full-bleed band: the peeking neighbours run to the screen edge instead of
+       being sliced at a gutter. The focused card (280px) stays naturally inset
+       because it's centred and narrower than the viewport. */
+    width: 100vw; margin-left: calc(50% - 50vw);
     margin-top: 22px;
   }
   .statdeck {
