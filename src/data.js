@@ -4,6 +4,7 @@
    Nothing here is invented; swap freely, the UI adapts.
    ========================================================================= */
 
+import { asset } from './asset'
 export const HERO_STATS = [
   { value: 3000, suffix: '+', label: 'Solutions delivered' },
   { value: 950, prefix: '$', suffix: 'M+', label: 'Raised for our clients' },
@@ -155,11 +156,11 @@ export const AV_HERO = {
 }
 
 export const AV_STATS = [
-  { value: 1700, suffix: '+', label: 'Technology Specialists', icon: '/hero-icons/tech-specialists.png' },
-  { value: 3000, suffix: '+', label: 'Solutions', icon: '/hero-icons/solutions.png' },
-  { value: 150, suffix: '+', label: 'AI Models', icon: '/hero-icons/ai-models.png' },
-  { value: 35, suffix: '+', label: 'Industries', icon: '/hero-icons/industries.png' },
-  { value: 15, suffix: '+', label: 'Global Recognitions & Awards', icon: '/hero-icons/awards.png' },
+  { value: 1700, suffix: '+', label: 'Technology Specialists', icon: asset('/hero-icons/tech-specialists.png') },
+  { value: 3000, suffix: '+', label: 'Solutions', icon: asset('/hero-icons/solutions.png') },
+  { value: 150, suffix: '+', label: 'AI Models', icon: asset('/hero-icons/ai-models.png') },
+  { value: 35, suffix: '+', label: 'Industries', icon: asset('/hero-icons/industries.png') },
+  { value: 15, suffix: '+', label: 'Global Recognitions & Awards', icon: asset('/hero-icons/awards.png') },
 ]
 
 export const AV_TRANSFORMATION = {
