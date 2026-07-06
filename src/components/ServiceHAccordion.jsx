@@ -46,18 +46,27 @@ function Icon({ i }) {
   )
 }
 
-/* video plays only when its panel is open; paused (and rewound) otherwise */
+/* Desktop: video plays only when its panel is open (paused otherwise).
+   Mobile: every panel is expanded into a stacked banner, so all videos
+   autoplay regardless of which is "active". */
 function Bg({ s, playing }) {
   const ref = useRef(null)
   useEffect(() => {
     const v = ref.current
     if (!v) return
-    v.playbackRate = SPEED
-    if (playing) {
-      v.play().catch(() => {})
-    } else {
-      v.pause()
+    const mq = window.matchMedia('(max-width: 760px)')
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    const apply = () => {
+      v.playbackRate = SPEED
+      if ((playing || mq.matches) && !reduced) {
+        v.play().catch(() => {})
+      } else {
+        v.pause()
+      }
     }
+    apply()
+    mq.addEventListener('change', apply) // re-evaluate on rotate / resize across the breakpoint
+    return () => mq.removeEventListener('change', apply)
   }, [playing])
   return (
     <video
