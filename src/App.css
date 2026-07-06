@@ -588,8 +588,9 @@
      by rAF, so never transition transform here (opacity is fine to ease) */
   .statdeck .stackcard {
     position: absolute; left: 50%; top: 50%;
-    /* cap to the band so the focused card keeps a gutter on narrow phones */
-    width: min(300px, calc(100% - 16px)); height: 200px; aspect-ratio: auto;
+    /* 20px narrower than before, and capped to the band with a comfortable
+       gutter so the focused card + its peeks fit the screen on any phone */
+    width: min(280px, calc(100% - 40px)); height: 200px; aspect-ratio: auto;
     box-shadow: none; /* flat, same as the other mobile cards */
     border: 1px solid color-mix(in srgb, var(--line-strong) 50%, transparent);
     will-change: transform;

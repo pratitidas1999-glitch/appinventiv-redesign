@@ -24,6 +24,9 @@ export default function StatDeck() {
   useEffect(() => {
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     const EASE = reduced ? 1 : 0.15
+    /* tighter peek on phones so the neighbours don't get sliced at the screen
+       edge; the roomier desktop offset stays as-is */
+    const gap = window.matchMedia('(max-width: 760px)').matches ? 30 : GAP
 
     /* cur = the position shown this frame; target = where it's easing to.
        Both are unbounded floats; place() wraps them onto the 5-card ring. */
@@ -39,7 +42,7 @@ export default function StatDeck() {
         let rel = i - active
         rel -= n * Math.round(rel / n)
         const abs = Math.abs(rel)
-        const x = rel * GAP
+        const x = rel * gap
         const sc = Math.max(0.6, 1 - abs * SCALE)
         /* full opacity out to ±2; only the card crossing the back seam fades */
         const op = abs <= 2 ? 1 : Math.max(0, 1 - (abs - 2) / 0.5)
