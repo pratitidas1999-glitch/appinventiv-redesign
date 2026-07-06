@@ -1,0 +1,450 @@
+/* =========================================================================
+   APPINVENTIV REDESIGN — DESIGN SYSTEM (3 switchable directions)
+   Concept: Proof-first / outcomes. Every claim is backed by a real number.
+
+   Themes (toggle live to compare):
+     signal    — engineered dark, blueprint grid, electric-lime proof numbers
+     kinetic   — plum-black, hot-coral accent, oversized motion-led type
+     blueprint — cool Swiss paper, stark grotesque, red accent, exposed grid
+
+   None resemble the portfolio (no warm cream, no Playfair, no indigo).
+   ========================================================================= */
+
+:root {
+  /* layout + motion are shared across themes */
+  --container: 1220px;
+  --gutter: clamp(20px, 5vw, 68px);
+  --radius: 16px;
+  --radius-lg: 26px;
+  --head-gap: clamp(36px, 5vw, 52px); /* consistent gap between a section heading and its content */
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* 8-point type scale — fixed, planned, no fluid clamps or odd values.
+     One hierarchy shared across every section. */
+  --fs-display: 48px; /* hero H1 */
+  --fs-h2: 36px;      /* every section heading */
+  --fs-lg: 24px;      /* large statement (final CTA) */
+  --fs-title: 22px;   /* service / card titles */
+  --fs-body: 16px;    /* body, blurbs, CTAs */
+  --fs-sub: 14px;     /* subheads, captions, small blurbs */
+  --fs-label: 12px;   /* eyebrows, index, chips, mono labels */
+
+  /* rust — the brand pop (paired with purple --accent + neutrals). Tokenised so
+     the one colour lives in one place; --rust-bright is the lighter-on-dark tone. */
+  --rust: #c24a1e;
+  --rust-bright: #d6602e;
+}
+/* mobile: body copy everywhere drops to 14px */
+@media (max-width: 760px) {
+  :root { --fs-body: 14px; }
+}
+@media (max-width: 640px) {
+  :root { --fs-display: 32px; --fs-h2: 28px; --fs-lg: 20px; }
+}
+
+/* ---- THEME: SIGNAL (engineered dark) ---- */
+[data-theme='signal'] {
+  --bg: #08090c;
+  --surface: #101319;
+  --card: #161a22;
+  --card-hover: #1c212b;
+  --text: #f4f5f1;
+  --dim: #aeb4bf;
+  --muted: #767d8a;
+  --line: rgba(255, 255, 255, 0.09);
+  --line-strong: rgba(255, 255, 255, 0.17);
+  --accent: #c9f24e;
+  --accent-bright: #dbff66;
+  --accent-soft: rgba(201, 242, 78, 0.14);
+  --on-accent: #0a0c08;
+  --grid: rgba(255, 255, 255, 0.05);
+  --grain-opacity: 0.035;
+  --font-display: 'Clash Display', Georgia, serif;
+  --font-body: 'General Sans', system-ui, sans-serif;
+  --font-mono: 'General Sans', ui-monospace, monospace;
+  color-scheme: dark;
+}
+
+/* ---- THEME: KINETIC (motion-led, hot accent) ---- */
+[data-theme='kinetic'] {
+  --bg: #0b0910;
+  --surface: #15111c;
+  --card: #1b1622;
+  --card-hover: #241d2e;
+  --text: #f8f4ef;
+  --dim: #beb2c4;
+  --muted: #8a7f93;
+  --line: rgba(255, 255, 255, 0.1);
+  --line-strong: rgba(255, 255, 255, 0.2);
+  --accent: #ff5a3c;
+  --accent-bright: #ff7355;
+  --accent-soft: rgba(255, 90, 60, 0.16);
+  --accent-2: #7c5cff;
+  --on-accent: #180706;
+  --grid: rgba(255, 255, 255, 0.04);
+  --grain-opacity: 0.04;
+  --font-display: 'Cabinet Grotesk', 'Clash Display', sans-serif;
+  --font-body: 'General Sans', system-ui, sans-serif;
+  --font-mono: 'General Sans', ui-monospace, monospace;
+  color-scheme: dark;
+}
+
+/* ---- THEME: BLUEPRINT (Swiss) — purple / yellow / black / white ----
+   Light hero (near-white + black + purple, yellow CTA) descending into
+   deep-violet sections where proof numbers glow yellow.
+   Palette: black+white = ~90%, purple = atmosphere, yellow = the only pop. */
+[data-theme='blueprint'] {
+  /* light hero surfaces — purple-dominant, not white */
+  --bg: #e7e0f7;            /* soft lavender field (purple leads, even when light) */
+  --surface: #f2eefb;
+  --card: #ffffff;          /* white only as the occasional breathing card */
+  --card-hover: #ded2f5;
+  --text: #171029;          /* near-black with a purple bias (body only) */
+  --dim: #3d3557;
+  --muted: #6b6488;
+  --line: rgba(41, 0, 135, 0.18);
+  --line-strong: rgba(41, 0, 135, 0.4);
+
+  /* brand purple + periwinkle */
+  --purple: #290087;         /* dark ultramarine — brand essence */
+  --purple-bright: #6d28d9;
+  --periwinkle: #cac5e5;
+
+  /* accent = the ONLY pop (yellow) */
+  --accent: #ffd23f;
+  --accent-bright: #ffe066;
+  --accent-soft: rgba(255, 210, 63, 0.24);
+  --on-accent: #0a0a0b;      /* black text on yellow */
+
+  /* dark-section palette (proof strip + everything below the hero) */
+  --dark-bg: #0e0a24;        /* deep violet-black */
+  --dark-bg-2: #17093f;
+  --dark-text: #ece9fb;      /* periwinkle-white */
+  --dark-dim: #b4add6;
+  --dark-line: rgba(255, 255, 255, 0.13);
+
+  --grid: rgba(41, 0, 135, 0.09);   /* purple-tinted structural grid */
+  --grain-opacity: 0;
+  --font-display: 'Satoshi', system-ui, sans-serif;
+  --font-body: 'Satoshi', system-ui, sans-serif;
+  --font-mono: 'Satoshi', ui-monospace, monospace;
+  color-scheme: light;
+}
+
+/* ---- THEME: PASTEL (chapter 4 — "we're here to solve your issues") ----
+   Lavender + purple + yellow pastels on white/beige, grounded by dark
+   greys and near-black ink. Satoshi throughout. Purple = the action
+   color, yellow = the optimism pop, lavender = atmosphere. Sections
+   follow cofounder's calm modular language; the hero moves. */
+[data-theme='pastel'] {
+  --bg: #f8f8f9; /* neutral paper white */
+  --surface: #f4f0e6; /* beige */
+  --card: #ffffff;
+  --card-hover: #f1ecdf;
+  --text: #17161a; /* near-black ink */
+  --dim: #4a4852; /* dark grey */
+  --muted: #807d89; /* mid grey */
+  --line: rgba(23, 22, 26, 0.11);
+  --line-strong: rgba(23, 22, 26, 0.28);
+
+  --accent: #6c4ce0; /* purple — action */
+  --accent-bright: #7e61ea;
+  --accent-soft: rgba(108, 76, 224, 0.13);
+  --on-accent: #ffffff;
+
+  --lavender: #bfb2ee;
+  --lavender-soft: #e6dffa;
+  --yellow: #ffd84d;
+  --yellow-soft: #ffefaf;
+  --ink: #131217; /* dark chapter background */
+
+  --grid: rgba(23, 22, 26, 0.06);
+  --grain-opacity: 0.02; /* was 0.05 — dialed back; the paper texture was reading as noise */
+  /* Lyon Display / Suisse Int'l — names kept first so licensed webfonts, if
+     added later via @font-face, take over automatically. Free stand-ins: Fraunces + Inter. */
+  --font-display: 'Lyon Display', 'Fraunces', Georgia, serif; /* elegant serif — headings */
+  --font-body: "Suisse Int'l", 'Inter', system-ui, sans-serif; /* grotesque — body */
+  --font-mono: "Suisse Int'l", 'Inter', ui-monospace, monospace; /* labels / eyebrows */
+  --font-num: "Suisse Int'l", 'Inter', system-ui, sans-serif; /* big stat numbers stay sans */
+  color-scheme: light;
+}
+
+/* the pixel grid runs under the entire page — fine, hairline-faint */
+[data-theme='pastel'] body {
+  background-image:
+    linear-gradient(rgba(23, 22, 26, 0.038) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(23, 22, 26, 0.038) 1px, transparent 1px);
+  background-size: 26px 26px;
+}
+
+/* ---- THEME: HIMACHAL (chapter 3 — daylight alpine, reworked color) ----
+   Cream + deep pine teal carry ~90% of the page. One action color: a
+   deeper, calmer orange. Goldenrod/berry/green appear only inside the
+   scene (prayer flags, chart). Copy never sits on artwork. */
+[data-theme='himachal'] {
+  --bg: #f7f3e8;
+  --surface: #efe8d6;
+  --card: #fffdf6;
+  --card-hover: #ece2cc;
+  --text: #14343a; /* deep pine teal */
+  --dim: #3c5a5c;
+  --muted: #6e8384;
+  --line: rgba(20, 52, 58, 0.14);
+  --line-strong: rgba(20, 52, 58, 0.34);
+
+  --accent: #e05237; /* mountain-sun orange — action only */
+  --accent-bright: #f0603f;
+  --accent-soft: rgba(224, 82, 55, 0.14);
+  --on-accent: #fff6e9;
+
+  --gold: #fbbd2f;
+  --pine-dark: #0f2b31; /* dark section base */
+  --pine-dark-2: #14343a;
+
+  --grid: rgba(20, 52, 58, 0.07);
+  --grain-opacity: 0.025;
+  --font-display: 'Satoshi', system-ui, sans-serif;
+  --font-body: 'General Sans', system-ui, sans-serif;
+  --font-mono: 'General Sans', ui-monospace, monospace;
+  color-scheme: light;
+}
+
+/* ---- THEMES: PIXEL + VOXEL (chapter 2 — the calm world) ----
+   Warm restraint: deep slate teal + cream carry 90% of the page.
+   Sunset orange is the only action color; goldenrod appears inside the
+   scene (sun, windows, fireflies) and as small highlights. The hero is a
+   16-bit / voxel world; all UI chrome stays clean and modern. */
+[data-theme='pixel'],
+[data-theme='voxel'] {
+  --bg: #faf4e8; /* warm cream, not clinical white */
+  --surface: #f3ebd8;
+  --card: #ffffff;
+  --card-hover: #efe3cb;
+  --text: #16333a; /* deep slate teal */
+  --dim: #3f5a5c;
+  --muted: #6e8283;
+  --line: rgba(22, 51, 58, 0.14);
+  --line-strong: rgba(22, 51, 58, 0.34);
+
+  --accent: #f45140; /* sunset orange — action only */
+  --accent-bright: #ff6a54;
+  --accent-soft: rgba(244, 81, 64, 0.16);
+  --on-accent: #fff6e9;
+
+  --gold: #fbbd2f;
+  --berry: #922764;
+  --crimson: #f25f88;
+
+  --grid: rgba(22, 51, 58, 0.07);
+  --grain-opacity: 0.028;
+  --font-display: 'Satoshi', system-ui, sans-serif;
+  --font-body: 'General Sans', system-ui, sans-serif;
+  --font-mono: 'General Sans', ui-monospace, monospace;
+  color-scheme: light;
+}
+
+/* =========================================================================
+   RESET + BASE
+   ========================================================================= */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  line-height: 1.6;
+  font-weight: 400;
+  overflow-x: hidden;
+  transition: background 0.6s var(--ease), color 0.6s var(--ease);
+}
+
+/* Lenis smooth scroll */
+html.lenis,
+html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-stopped { overflow: hidden; }
+
+::selection { background: var(--accent); color: var(--on-accent); }
+
+a { color: inherit; text-decoration: none; }
+button { font-family: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+img, svg, video { display: block; max-width: 100%; }
+ul { list-style: none; }
+
+/* =========================================================================
+   TYPOGRAPHY PRIMITIVES
+   ========================================================================= */
+
+.display {
+  font-family: var(--font-display);
+  font-weight: 600;
+  line-height: 0.98;
+  letter-spacing: -0.02em;
+}
+
+.kicker {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent);
+  display: inline-flex;
+  align-items: center;
+  gap: 11px;
+}
+.kicker::before {
+  content: '';
+  width: 24px;
+  height: 1.5px;
+  background: var(--accent);
+}
+
+.lead {
+  font-size: var(--fs-title);
+  line-height: 1.55;
+  color: var(--dim);
+  font-weight: 400;
+}
+
+.figure {
+  font-family: var(--font-num); /* numbers stay grotesque, not serif */
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+}
+
+/* =========================================================================
+   LAYOUT
+   ========================================================================= */
+
+.container {
+  width: 100%;
+  max-width: var(--container);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.section { position: relative; padding-block: clamp(59px, 7.7vw, 109px); }
+
+.section-head { max-width: 760px; margin-bottom: clamp(44px, 6vw, 72px); }
+.section-head h2 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: var(--fs-display);
+  line-height: 1.08;
+  letter-spacing: -0.01em;
+  margin-top: 20px;
+}
+.section-head .lead { margin-top: 22px; max-width: 620px; }
+
+/* =========================================================================
+   BUTTONS
+   ========================================================================= */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 15px 26px;
+  border-radius: 100px;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: var(--fs-body);
+  letter-spacing: 0.01em;
+  transition: transform 0.5s var(--ease), background 0.35s var(--ease),
+    color 0.35s var(--ease), border-color 0.35s var(--ease), box-shadow 0.4s var(--ease);
+  will-change: transform;
+}
+.btn:hover { transform: translateY(-2px); }
+
+.btn-primary { background: var(--accent); color: var(--on-accent); }
+.btn-primary:hover {
+  background: var(--accent-bright);
+  box-shadow: 0 14px 44px var(--accent-soft);
+}
+
+.btn-ghost {
+  color: var(--text);
+  border: 1px solid var(--line-strong);
+  background: transparent;
+}
+.btn-ghost:hover { border-color: var(--text); background: var(--card-hover); }
+
+/* blueprint buttons are squared for the Swiss feel */
+[data-theme='blueprint'] .btn { border-radius: 4px; }
+
+.btn .arrow { transition: transform 0.45s var(--ease); }
+.btn:hover .arrow { transform: translateX(4px); }
+
+/* =========================================================================
+   SHARED — tags, dots, grain, progress
+   ========================================================================= */
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 13px;
+  border-radius: 100px;
+  border: 1px solid var(--line);
+  font-size: var(--fs-label);
+  font-weight: 500;
+  color: var(--dim);
+  background: transparent;
+}
+[data-theme='blueprint'] .tag { border-radius: 3px; }
+
+.dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 12px var(--accent);
+}
+
+.grain {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: var(--grain-opacity);
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  transition: opacity 0.6s var(--ease);
+}
+
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--accent);
+  transform-origin: 0%;
+  z-index: 200;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

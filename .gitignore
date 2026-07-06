@@ -1,0 +1,16 @@
+node_modules
+dist
+.DS_Store
+*.local
+.vite
+.gstack/
+
+# raw working-source assets (not part of the deployable site)
+/AI/
+/Awards 1/
+/Beyond development/
+/Hero icons/
+/icons hero/
+/Innovation, Engineered by Appinventiv/
+/untitled folder/
+/Growth Roadmap video.mp4
