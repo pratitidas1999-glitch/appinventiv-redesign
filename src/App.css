@@ -571,7 +571,9 @@
 @media (max-width: 760px) {
   .hero__deck {
     display: block; order: 2; /* sit below the hero copy + CTAs */
-    width: 100vw; margin-left: calc(50% - 50vw); /* full-bleed band */
+    /* respect the page's side gutter (matches the CTAs above) instead of
+       bleeding full-width; neighbours clip at this padded edge, not the screen */
+    width: 100%;
     margin-top: 22px;
   }
   .statdeck {
@@ -586,7 +588,8 @@
      by rAF, so never transition transform here (opacity is fine to ease) */
   .statdeck .stackcard {
     position: absolute; left: 50%; top: 50%;
-    width: 300px; height: 200px; aspect-ratio: auto;
+    /* cap to the band so the focused card keeps a gutter on narrow phones */
+    width: min(300px, calc(100% - 16px)); height: 200px; aspect-ratio: auto;
     box-shadow: none; /* flat, same as the other mobile cards */
     border: 1px solid color-mix(in srgb, var(--line-strong) 50%, transparent);
     will-change: transform;
@@ -2230,9 +2233,10 @@
 }
 .svid__chips {
   display: flex; flex-wrap: wrap; align-items: center; gap: 10px;
-  margin-bottom: 22px;
+  margin-bottom: 14px;
 }
 .svid__chip {
+  flex: 0 0 auto; white-space: nowrap; /* never squash; scroll instead of wrap */
   font-family: var(--font-body); font-size: 13px; font-weight: 500;
   color: var(--dim);
   background: var(--card);
@@ -2245,12 +2249,28 @@
   color: #fff; background: var(--accent); border-color: var(--accent);
   box-shadow: 0 4px 18px rgba(108, 76, 224, 0.35);
 }
+/* Clear sits on its own row beneath the chips */
+.svid__chipsfoot { margin-bottom: 22px; }
 .svid__clear {
   font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.08em;
   text-transform: uppercase; color: var(--muted);
-  background: none; border: none; cursor: pointer; padding: 9px 6px;
+  background: none; border: none; cursor: pointer; padding: 9px 2px;
 }
 .svid__clear:hover { color: var(--text); }
+
+/* mobile — collapse the chips to a single horizontal-scroll line so they
+   don't stack into a tall column */
+@media (max-width: 760px) {
+  .svid__chips {
+    flex-wrap: nowrap; overflow-x: auto; gap: 8px;
+    scroll-behavior: smooth; -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; /* Firefox */
+    /* bleed the row to the screen edges so chips can scroll past the gutter */
+    margin-inline: calc(var(--gutter) * -1);
+    padding-inline: var(--gutter);
+  }
+  .svid__chips::-webkit-scrollbar { display: none; } /* WebKit */
+}
 
 .hacc {
   display: flex;

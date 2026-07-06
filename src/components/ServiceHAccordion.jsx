@@ -83,6 +83,13 @@ export default function ServiceHAccordion() {
     setPicked((p) => (p.includes(id) ? p.filter((x) => x !== id) : [...p, id]))
   const clear = () => setPicked([])
 
+  /* selected goals float to the front of the row (stable order otherwise), so
+     what the user picked always reads first in the single-line scroller */
+  const orderedGoals = useMemo(
+    () => [...GOALS].sort((a, b) => picked.includes(b.id) - picked.includes(a.id)),
+    [picked],
+  )
+
   /* score each service by how many picked goals route to it; the top score is
      the best fit, which becomes the expanded panel */
   const scored = useMemo(() => {
@@ -120,9 +127,10 @@ export default function ServiceHAccordion() {
           Where are you headed? Pick your goals — we&rsquo;ll point you to the right team and the proof.
         </p>
 
-        {/* needs-router chips — picking goals opens the best-fit panel below */}
+        {/* needs-router chips — single scrolling row; picked goals sort to the
+            front so the current selection is always visible first */}
         <div className="svid__chips" role="group" aria-label="Your goals">
-          {GOALS.map((g) => (
+          {orderedGoals.map((g) => (
             <button
               key={g.id}
               type="button"
@@ -133,12 +141,14 @@ export default function ServiceHAccordion() {
               {g.label}
             </button>
           ))}
-          {hasPicked && (
+        </div>
+        {hasPicked && (
+          <div className="svid__chipsfoot">
             <button type="button" className="svid__clear" onClick={clear}>
               Clear
             </button>
-          )}
-        </div>
+          </div>
+        )}
 
         <div className="hacc">
           {SERVICES.map((s, i) => {
